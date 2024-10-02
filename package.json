@@ -1,0 +1,19 @@
+{
+  "name": "todo-list-app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "concurrently \"npm run watch-ts\" \"lite-server\"",
+    "build": "tsc",
+    "watch-ts": "tsc -w"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "concurrently": "^9.0.1",
+    "lite-server": "^2.6.1",
+    "typescript": "^5.6.2"
+  }
+}
