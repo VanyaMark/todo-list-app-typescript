@@ -16,5 +16,16 @@ body {
 
 .completed {
   text-decoration: line-through;
-  color: rgb(156,160, 180)
+  color: rgb(156, 158, 160);
+  position: relative;
+}
+
+.completed::after {
+  width: 30px;
+  height: 30px;
+  content: '\2713';
+  color: green;
+  text-decoration: none;
+  position: absolute;
+  right: 10px;
 }
