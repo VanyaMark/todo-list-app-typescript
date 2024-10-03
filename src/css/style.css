@@ -8,6 +8,13 @@ body {
   padding: 20px;
 }
 
+.todo-item {
+  background-color: whitesmoke;
+  cursor: pointer;
+  padding: 10px;
+}
+
 .completed {
   text-decoration: line-through;
+  color: rgb(156,160, 180)
 }
