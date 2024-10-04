@@ -20,6 +20,17 @@ body {
 	}
 }
 
+button {
+  margin-left: 10px;
+  padding: 10px 20px;
+  font-size: 16px;
+  border: none;
+  border-radius: 25px;
+  background-color: #2bc0e4;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
 .card {
   border: white 0.3rem solid;
   padding: 20px;
@@ -78,14 +89,7 @@ body {
 }
 
 #add-todo-button {
-  padding: 10px 20px;
-  font-size: 16px;
-  border: none;
-  border-radius: 25px;
-  background-color: #2bc0e4;
-  color: white;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
+
 }
 
 #add-todo-button:hover {

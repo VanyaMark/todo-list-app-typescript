@@ -12,7 +12,7 @@ document.addEventListener("DOMContentLoaded", () => {
   ) as HTMLFormElement;
   const toDoErrorDiv = document.getElementById("to-do-error") as HTMLDivElement;
 
-  const todoItems : string[] =[];
+  let todoItems : string[] =[];
 
   inputContainer.addEventListener("submit", (event) => {
     event.preventDefault();
@@ -28,16 +28,16 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   //2. Marking Items as Done
-  todoList.addEventListener("click", (event) => {
-    const target = event.target as HTMLLIElement;
-    toggleToDoItems(target);
-  });
+  // todoList.addEventListener("click", (event) => {
+  //   const target = event.target as HTMLLIElement;
+  //   toggleToDoItems(target);
+  // });
 
   //Fetch random joke
   //fetchRandomJoke();
 
   //Fetch random quote
-fetchRandomQuote();
+// fetchRandomQuote();
 
   //fetchRandomChuckNorrisJoke();
 
@@ -57,11 +57,57 @@ fetchRandomQuote();
       }
         toDoErrorDiv.innerHTML = "";
         todoItems.push(todoText)
+
         const newTodoLiElement = document.createElement("li");
         newTodoLiElement.textContent = todoText;
         newTodoLiElement.classList.add("todo-item");
         todoList.appendChild(newTodoLiElement);
+
+        const editButton = document.createElement("button");
+        editButton.textContent = "Edit";
+        newTodoLiElement.appendChild(editButton);
+
+        editButton.addEventListener("click", () => handleEdit(newTodoLiElement, editButton))
         inputElement.value = "";
+  }
+
+  function handleEdit(newTodoLiElement :HTMLLIElement, editButton: HTMLButtonElement):void {
+    createInputEdit(newTodoLiElement,editButton)
+    addListenerSaveEditChangesBtn()
+
+ 
+  }
+
+  function createInputEdit(newTodoLiElement :HTMLLIElement, editButton: HTMLButtonElement) {
+    editButton.textContent = "";
+    // console.log(newTodoLiElement)
+    // console.log('li text content: ', newTodoLiElement.textContent)
+    
+    newTodoLiElement.innerHTML = `<input placeholder=${newTodoLiElement.textContent} id="edit-todo-input" ></input> <button id="save-edit-changes-btn">Save changes</button>`;
+    // console.log(newTodoLiElement);
+  }
+
+  function addListenerSaveEditChangesBtn() {
+    const saveEditChangesBtn = document.getElementById("save-edit-changes-btn") as HTMLButtonElement;
+    const editToDoInput = document.getElementById("edit-todo-input") as HTMLInputElement;
+
+
+    saveEditChangesBtn.addEventListener("click", ()=> {
+      const currentToDo: string | null = editToDoInput.placeholder;
+      const newToDoValue = editToDoInput.value;
+      if (todoItems.includes(newToDoValue)) {
+        throw new Error("Duplicate task item!");
+      }
+      
+      console.log('to do array: ', todoItems)
+      console.log("currentToDo: ", currentToDo)
+      console.log("newToDoValue: ", newToDoValue)
+
+
+       todoItems = replaceStringInArray(todoItems, currentToDo, newToDoValue)
+      //  console.log(replaceStringInArray(["swim", "paint", "sleep"], "paint", "code to do app"))
+       console.log('new to do array: ', todoItems)
+    });
   }
 
   function toggleToDoItems(li: HTMLLIElement):void {
@@ -70,7 +116,10 @@ fetchRandomQuote();
 });
 
 
-
+function replaceStringInArray(arr :string[] , target :string, newString :string) {
+  // Check if the target exists and then replace it
+  return arr.map((item) => (item === target ? newString : item));
+}
 
 
 async function fetchRandomJoke(): Promise<void> {
