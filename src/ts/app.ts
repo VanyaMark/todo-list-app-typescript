@@ -9,58 +9,123 @@ document.addEventListener("DOMContentLoaded", () => {
   const todoList = document.getElementById("todo-list") as HTMLUListElement;
   const inputContainer = document.getElementById(
     "input-container"
-  ) as HTMLDivElement;
+  ) as HTMLFormElement;
+  const toDoErrorDiv = document.getElementById("to-do-error") as HTMLDivElement;
 
-  // 1. Adding new Todo Item on click
-  addButton.addEventListener("click", () => {
-    createToDoItem(todoList, inputElement);
-  });
+  const todoItems : string[] =[];
 
-  // 1. Adding new Todo Item on keyboard Enter
-  inputContainer.addEventListener("keydown", (event) => {
-    if (event.key === "Enter") {
-      // event.preventDefault();
-      createToDoItem(todoList, inputElement);
+  inputContainer.addEventListener("submit", (event) => {
+    event.preventDefault();
+    try {
+      createToDoItem(todoList, inputElement, toDoErrorDiv);
+    } catch(error: unknown) {
+      if (error instanceof Error) {
+      toDoErrorDiv.innerHTML = error.message;
+      toDoErrorDiv.style.display = "block";
+      console.error("Adding new to-do", error.message);
+    }
     }
   });
 
   //2. Marking Items as Done
   todoList.addEventListener("click", (event) => {
     const target = event.target as HTMLLIElement;
-    // console.log(target.textContent);
-
     toggleToDoItems(target);
   });
+
+  //Fetch random joke
+  //fetchRandomJoke();
+
+  //Fetch random quote
+fetchRandomQuote();
+
+  //fetchRandomChuckNorrisJoke();
+
+  //Functions declarations
+
+  function createToDoItem(
+    todoList: HTMLUListElement,
+    inputElement: HTMLInputElement,
+    toDoErrorDiv: HTMLDivElement,
+  ) {
+    const todoText: string = inputElement.value.trim();
+      if (todoText === "") {
+        throw new Error("You cannot add an empty to-do activity.");
+      }
+      if (todoItems.includes(todoText)) {
+        throw new Error("Duplicate task item!");
+      }
+        toDoErrorDiv.innerHTML = "";
+        todoItems.push(todoText)
+        const newTodoLiElement = document.createElement("li");
+        newTodoLiElement.textContent = todoText;
+        newTodoLiElement.classList.add("todo-item");
+        todoList.appendChild(newTodoLiElement);
+        inputElement.value = "";
+  }
+
+  function toggleToDoItems(li: HTMLLIElement):void {
+    li.classList.toggle("completed");
+  }
 });
 
-function toggleToDoItems(li: HTMLLIElement) {
-  li.classList.toggle("completed");
-}
 
-function createToDoItem(
-  todoList: HTMLUListElement,
-  inputElement: HTMLInputElement
-) {
-  const todoText: string = inputElement.value.trim();
-  if (todoText !== "") {
-    const newTodoLiElement = document.createElement("li");
-    newTodoLiElement.textContent = todoText;
-    newTodoLiElement.classList.add("todo-item");
-    todoList.appendChild(newTodoLiElement);
+
+
+
+async function fetchRandomJoke(): Promise<void> {
+  const urlString =
+    "https://cors-anywhere.herokuapp.com/https://official-joke-api.appspot.com/random_joke";
+  const jokePArray = document.getElementsByClassName("joke-p");
+
+  try {
+    const response = await fetch(urlString);
+    if (!response.ok) {
+      throw new Error(`Failed to fetch the joke! status: ${response.status}`);
+    }
+    const data = await response.json();
+    jokePArray[0].textContent = `- ${data.setup}`;
+    jokePArray[1].textContent = `- ${data.punchline}`;
+  } catch (error: unknown) {
+    console.error("Error fetching joke", error);
+    jokePArray[0].textContent =
+      "Failed to load the joke of the day. Try again later.";
   }
-   inputElement.value = "";
 }
 
-// Rana's code
-// function addTodoItem(inputElement:HTMLInputElement, todoList:HTMLUListElement) {
-//   const todoText: string = inputElement.value.trim();
+async function fetchRandomQuote() {
+  try {
+    const response = await fetch(
+      "https://cors-anywhere.herokuapp.com/https://zenquotes.io/api/random"
+    );
 
-//   if (todoText !== "") {
-//     const newTodoItem = document.createElement("li");
-//     newTodoItem.textContent = todoText;
-//     todoList.appendChild(newTodoItem)
-//   }
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    const data = await response.json();
+    console.log("quote: ", data[0].h);
+  } catch (error) {
+    console.error("Error fetching Quote");
+  }
+}
 
-//   //reset input field
-//   inputElement.value = "";
-// }
+async function fetchRandomChuckNorrisJoke() {
+  const urlString = "https://api.chucknorris.io/jokes/random";
+
+  try {
+    const response = await fetch(urlString);
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const data = await response.json();
+    console.log("Chuck Norris: ", data.value);
+    const chuckNorrisJokeP = document.getElementById(
+      "chuck-norris-p"
+    ) as HTMLParagraphElement;
+    chuckNorrisJokeP.textContent = data.value;
+  } catch (error) {
+    console.error("Error fetching Chuck Norris joke");
+  }
+}

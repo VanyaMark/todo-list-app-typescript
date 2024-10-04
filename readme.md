@@ -60,3 +60,35 @@ implement a function that uses the fetch method to retrieve a random quote or jo
 
 Step 3: Style the Quote/Joke Section
 You may want to add some CSS to make the quote/joke section visually appealing.
+
+Step 4: Adding Edit Functionality to Each To-Do Item
+You will add an edit button to each to-do item, which allows the user to modify the task name. This task has three main parts:
+
+Part 1: Add an edit button for each to-do item. When the button is clicked, it should call a function called handleEdit.
+
+Part 2: Replace the task text with an input field and add a "Save Changes" button.
+
+Part 3: Update the task with the new value when the "Save Changes" button is clicked, while ensuring that duplicate tasks are not allowed.
+
+Part 1: Adding the Edit Button and Click Event Handler
+-Add an Edit Button for Each To-Do Item: When you create a new "li" element for a to-do item, you need to create an "Edit" button as well. Append this "Edit" button to the list item ("li").
+
+-Add an Event Handler for the Edit Button: For each edit button, add an event listener for the "click" event. When the edit button is clicked, the event handler should call a function named handleEdit.
+
+Part2: Replacing Task Text with an Input Field
+-Add the Input Field and "Save Changes" Button:
+
+In the handleEdit function, replace the text content of the task with an input field containing the current value of the to-do item. Next to this input field, add a "Save Changes" button.
+
+-Click Event Handler for the Save Button:
+
+Add an event listener to the "Save Changes" button to handle updating the to-do item. When clicked, call a function named handleSave.
+
+Part 3: Updating the To-Do Item with the New Value
+-Save the Changes:
+
+In the handleSave function, when the "Save Changes" button is clicked, take the value from the input field and update the text of the task item. Then, remove the input field and the "Save Changes" button and show the task with the new name.
+
+-Handle Duplicates(Bonus):
+
+Before saving the new task, check if it already exists in the list. If the new task name already exists, display an error message indicating a duplicate item.
