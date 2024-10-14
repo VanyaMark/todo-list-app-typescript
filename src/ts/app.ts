@@ -28,18 +28,18 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   //2. Marking Items as Done
-  // todoList.addEventListener("click", (event) => {
-  //   const target = event.target as HTMLLIElement;
-  //   toggleToDoItems(target);
-  // });
+  todoList.addEventListener("click", (event) => {
+    const target = event.target as HTMLLIElement;
+    toggleToDoItems(target);
+  });
 
   //Fetch random joke
-  //fetchRandomJoke();
+ fetchRandomJoke();
 
   //Fetch random quote
 // fetchRandomQuote();
 
-  //fetchRandomChuckNorrisJoke();
+  fetchRandomChuckNorrisJoke();
 
   //Functions declarations
 
@@ -81,7 +81,7 @@ document.addEventListener("DOMContentLoaded", () => {
   function createInputEdit(newTodoLiElement :HTMLLIElement, editButton: HTMLButtonElement) {
     editButton.textContent = "";
     // console.log(newTodoLiElement)
-    // console.log('li text content: ', newTodoLiElement.textContent)
+    console.log('li text content: ', newTodoLiElement.textContent)
     
     newTodoLiElement.innerHTML = `<input placeholder=${newTodoLiElement.textContent} id="edit-todo-input" ></input> <button id="save-edit-changes-btn">Save changes</button>`;
     // console.log(newTodoLiElement);
